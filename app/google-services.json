@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "942682189718",
+    "firebase_url": "https://organalifer.firebaseio.com",
+    "project_id": "organalifer",
+    "storage_bucket": "organalifer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942682189718:android:14f520d24c3d060b7cb7b7",
+        "android_client_info": {
+          "package_name": "com.example.organalifer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942682189718-870hreak5hivk8o617rh5f7q6fla4qvf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwi8514vaG11HQG8TXqltlEP2Ot-4sLDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942682189718-870hreak5hivk8o617rh5f7q6fla4qvf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

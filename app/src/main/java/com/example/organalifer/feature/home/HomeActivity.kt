@@ -8,13 +8,14 @@ import android.widget.ArrayAdapter
 import com.example.organalifer.R
 import com.example.organalifer.data.model.Account
 import com.example.organalifer.data.model.Transaction
+import com.example.organalifer.data.net.FirebaseDatabase
 import com.example.organalifer.feature.bills.AccountStatementActivity
 import com.example.organalifer.feature.register.RegisterActivity
 import com.example.organalifer.feature.transaction.TransactionActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
-
     companion object {
         const val REGISTER_CODE = 2
         const val TRANSACTION_CODE = 3
@@ -33,9 +34,10 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseDatabase.start()
         setContentView(R.layout.activity_home)
 
-        setAccountsSpinner()
+        setSpinner()
 
         register_account.setOnClickListener {
             startActivityForResult(
@@ -52,15 +54,19 @@ class HomeActivity : AppCompatActivity() {
         }
 
         financial_transaction.setOnClickListener {
+            val intent = Intent(this@HomeActivity, TransactionActivity::class.java)
+            intent.putExtra("list", getAccountSpinnerList())
             startActivityForResult(
-                Intent(this@HomeActivity, TransactionActivity::class.java),
+                intent,
                 TRANSACTION_CODE
             )
         }
 
         financial_transaction_image.setOnClickListener {
+            val intent = Intent(this@HomeActivity, TransactionActivity::class.java)
+            intent.putExtra("list", getAccountSpinnerList())
             startActivityForResult(
-                Intent(this@HomeActivity, TransactionActivity::class.java),
+                intent,
                 TRANSACTION_CODE
             )
         }
@@ -83,9 +89,10 @@ class HomeActivity : AppCompatActivity() {
                 REGISTER_CODE -> {
                     data?.run {
                         this.extras?.getParcelable<Account>(ACCOUNT_KEY)?.run {
+                            // passar aqui as contas salvas no firebase
                             accountsList.add(this)
                             accountsValue += this.balance.toDouble()
-                            setAccountsSpinner()
+                            setSpinner()
                         }
                     }
                 }
@@ -100,24 +107,38 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setAccountsSpinner() {
-        if (accountsList.isNotEmpty()) {
-            accounts_spinner.isEnabled = true
-            financial_transaction.isEnabled = true
-            financial_transaction_image.isEnabled = true
-            val accountsDescription = arrayListOf<String>()
-            for (a in accountsList) {
-                accountsDescription.add(a.description)
-            }
-
-            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, accountsDescription)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            accounts_spinner.adapter = adapter
-        } else {
-            accounts_spinner.isEnabled = false
-            financial_transaction.isEnabled = false
-            financial_transaction_image.isEnabled = false
+    // Retorna a lista de Contas para o Spinner
+    private fun getAccountSpinnerList() : ArrayList<String> {
+        val accountsDescription = arrayListOf<String>()
+        for (a in accountsList) {
+            accountsDescription.add(a.description)
         }
+        return accountsDescription
+    }
 
+    // Orquestra o Spinner
+    private fun setSpinner() {
+        val isAccountListEmpty = accountsList.isNotEmpty()
+
+        if (isAccountListEmpty) {
+            setTransactionButtonAndSpinnerEnable(isAccountListEmpty)
+            setAdapter()
+        } else {
+            setTransactionButtonAndSpinnerEnable(accountsList.isNotEmpty())
+        }
+    }
+
+    // seta o adapter
+    private fun setAdapter() {
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, getAccountSpinnerList())
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        accounts_spinner.adapter = adapter
+    }
+
+    // (Des)Habilita os componentes de acordo com a lista
+    private fun setTransactionButtonAndSpinnerEnable(isEnabled: Boolean) {
+        financial_transaction.isEnabled = isEnabled
+        financial_transaction_image.isEnabled = isEnabled
+        accounts_spinner.isEnabled = isEnabled
     }
 }

@@ -134,4 +134,5 @@
         app:layout_constraintBottom_toBottomOf="@id/account_statement_image"
         app:layout_constraintStart_toEndOf="@id/account_statement_image"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
