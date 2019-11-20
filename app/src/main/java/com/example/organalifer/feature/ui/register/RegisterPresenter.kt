@@ -1,4 +1,4 @@
-package com.example.organalifer.feature.register
+package com.example.organalifer.feature.ui.register
 
 import com.example.organalifer.data.base.BasePresenter
 import com.example.organalifer.data.base.BaseView
@@ -11,7 +11,6 @@ class RegisterPresenter : RegisterContract.Presenter, BasePresenter.Impl<Registe
         FirebaseDatabase.saveData(
             DB_COLLECTION_NAME,
             account,
-            FIRESTORE_SUCCESS_MESSAGE,
             view as BaseView
         )
     }

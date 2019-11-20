@@ -1,4 +1,4 @@
-package com.example.organalifer.feature.register
+package com.example.organalifer.feature.ui.register
 
 import com.example.organalifer.data.base.BasePresenter
 import com.example.organalifer.data.base.BaseView

@@ -1,4 +1,4 @@
-package com.example.organalifer.feature.transaction
+package com.example.organalifer.feature.ui.transaction
 
 import com.example.organalifer.data.base.BasePresenter
 import com.example.organalifer.data.base.BaseView
@@ -11,14 +11,12 @@ class TransactionPresenter : BasePresenter.Impl<TransactionContract.View>(), Tra
         FirebaseDatabase.saveData(
             DB_COLLECTION_NAME,
             transaction,
-            FIRESTORE_SUCCESS_MESSAGE,
             view as BaseView
         )
     }
 
     companion object {
         const val DB_COLLECTION_NAME = "transactions"
-        const val FIRESTORE_SUCCESS_MESSAGE = "Transação salva com sucesso!"
     }
 
 }

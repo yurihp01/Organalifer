@@ -11,4 +11,10 @@
     <string name="title_activity_account_statement">AccountStatementActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+
+    <string-array name="extract_type_arrays">
+        <item>Conta</item>
+        <item>Tipo de Cartão</item>
+        <item>Categoria</item>
+    </string-array>
 </resources>

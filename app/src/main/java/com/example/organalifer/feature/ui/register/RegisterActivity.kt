@@ -1,14 +1,10 @@
-package com.example.organalifer.feature.register
+package com.example.organalifer.feature.ui.register
 
 import android.app.Activity
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.widget.Toast
 import com.example.organalifer.R
 import com.example.organalifer.data.base.BaseActivity
 import com.example.organalifer.data.model.Account
-import com.example.organalifer.feature.home.HomeActivity.Companion.ACCOUNT_KEY
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity() : BaseActivity<RegisterContract.Presenter>(), RegisterContract.View {

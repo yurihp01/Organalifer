@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".feature.transaction.TransactionActivity"
+        <activity android:name="com.example.organalifer.feature.ui.transaction.TransactionActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".feature.register.RegisterActivity"
+        <activity android:name="com.example.organalifer.feature.ui.register.RegisterActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".feature.bills.AccountStatementActivity"
+            android:name="com.example.organalifer.feature.ui.bills.AccountStatementActivity"
             android:label="@string/title_activity_account_statement"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
-        <activity android:name=".feature.home.HomeActivity"
+        <activity android:name="com.example.organalifer.feature.ui.home.HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
