@@ -2,6 +2,7 @@ package com.example.organalifer.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class Transaction constructor(
@@ -10,5 +11,5 @@ data class Transaction constructor(
     val category: String = "",
     val type: String = "",
     val value: Double = 0.0,
-    val periodicity: String? = null
+    var periodicity: Date? = null
 ) : Parcelable

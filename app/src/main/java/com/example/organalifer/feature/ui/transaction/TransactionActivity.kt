@@ -1,6 +1,7 @@
 package com.example.organalifer.feature.ui.transaction
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -9,9 +10,17 @@ import com.example.organalifer.data.base.BaseActivity
 import com.example.organalifer.data.model.Transaction
 import com.example.organalifer.feature.ui.home.HomeActivity.Companion.TRANSACTION_KEY
 import kotlinx.android.synthetic.main.activity_transaction.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.Calendar.*
 
 class TransactionActivity : BaseActivity<TransactionContract.Presenter>(), TransactionContract.View {
+
+    lateinit var date: Date
+
     override fun getTotalBalance(balance: Double) {
+        hideLoading(progress_bar_as)
         this.balance = balance
     }
 
@@ -43,6 +52,7 @@ class TransactionActivity : BaseActivity<TransactionContract.Presenter>(), Trans
 
         transaction_button.setOnClickListener {
             when (transaction_payment_group.checkedRadioButtonId) {
+
                 doubt_radio_button.id -> {
 
                     transaction = Transaction(
@@ -51,7 +61,7 @@ class TransactionActivity : BaseActivity<TransactionContract.Presenter>(), Trans
                         category_spinner.selectedItem.toString(),
                         doubt_radio_button.text.toString(),
                         value_input.editText!!.text.toString().toDouble().unaryMinus(),
-                        periodity_input.editText!!.text.toString()
+                        date
                     )
                 }
                 else -> {
@@ -59,14 +69,13 @@ class TransactionActivity : BaseActivity<TransactionContract.Presenter>(), Trans
                         account_spinner.selectedItem.toString(),
                         description_input.editText!!.text.toString(),
                         category_spinner.selectedItem.toString(),
-                        doubt_radio_button.text.toString(),
+                        credit_radio_button.text.toString(),
                         value_input.editText!!.text.toString().toDouble(),
-                        periodity_input.editText!!.text.toString()
+                        date
                     )
                 }
             }
-
-            presenter.setTransaction(transaction)
+            presenter.setTransaction(transaction, progress_bar_as)
             intent.putExtra(TRANSACTION_KEY, balance)
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -75,6 +84,11 @@ class TransactionActivity : BaseActivity<TransactionContract.Presenter>(), Trans
             // foi feito a logica da visibilidade se for repetivel.
             // fazer conexao com o banco e o resto kkkk
         }
+
+        periodity_image.setOnClickListener { setDate() }
+
+        periodity_input.setOnClickListener { setDate() }
+
     }
 
     override fun showError(throwable: Throwable) {
@@ -91,10 +105,25 @@ class TransactionActivity : BaseActivity<TransactionContract.Presenter>(), Trans
 
         val extractList = listOf("conta", "natureza de transação", "tipo de transação")
 
-        val transactionTypeList = listOf("débito", "crédito")
+        val transactionTypeList = listOf("Débito", "Crédito")
 
         val periodList = listOf("período")
     }
+
+    private fun setDate() {
+        val c = getInstance()
+        val year = c.get(YEAR)
+        val month = c.get(MONTH)
+        val day = c.get(DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, mYear, monthOfYear, dayOfMonth ->
+            date = GregorianCalendar(mYear, monthOfYear, dayOfMonth).time
+            periodity_input.text = SimpleDateFormat("dd/MM/yyyy", Locale("pt-br")).format(date)
+        }, year, month, day)
+
+        dpd.show()
+    }
+
 
     // seta ambos os adapters do layout
     private fun setAdapters() {

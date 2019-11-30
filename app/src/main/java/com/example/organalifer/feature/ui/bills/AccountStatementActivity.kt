@@ -1,5 +1,6 @@
 package com.example.organalifer.feature.ui.bills
 
+import android.app.DatePickerDialog
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,12 +13,18 @@ import com.example.organalifer.data.net.FirebaseDatabase
 import com.example.organalifer.feature.adapter.AccountStatementAdapter
 import com.example.organalifer.feature.ui.transaction.TransactionActivity
 import kotlinx.android.synthetic.main.activity_account_statement.*
+import kotlinx.android.synthetic.main.activity_account_statement.periodity_image
+import kotlinx.android.synthetic.main.activity_account_statement.periodity_input
+import kotlinx.android.synthetic.main.activity_transaction.*
+import kotlinx.android.synthetic.main.fragment_card.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AccountStatementActivity : BaseActivity<AccountStatementPresenter>(),
     AccountStatementContract.View {
     override lateinit var presenter: AccountStatementPresenter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var extractItemKey: String
 
     override fun contentView(): Int = R.layout.activity_account_statement
 
@@ -42,12 +49,47 @@ class AccountStatementActivity : BaseActivity<AccountStatementPresenter>(),
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                FirebaseDatabase.getTransactionsAccordingToOrder("transaction",
-                    when (p0!!.selectedItem.toString()) {
-                        "período" -> "periodicity"
-                        "tipo de transação" -> "category"
-                        else -> "type"
-                    }, this@AccountStatementActivity)
+                p0?.apply {
+                    val extractItem = this.selectedItem.toString()
+                    extractItemKey = when (extract_type.selectedItem.toString()) {
+                        "conta" -> {
+                            periodity_image.visibility = View.VISIBLE
+                            periodity_input.visibility = View.VISIBLE
+                            "periodicity"
+                        }
+                        "tipo de transação" -> {
+                            periodity_input.visibility = View.GONE
+                            periodity_image.visibility = View.GONE
+                            "category"
+                        }
+                        else -> {
+                            periodity_image.visibility = View.GONE
+                            periodity_input.visibility = View.GONE
+                            "type"
+                        }
+                    }
+
+                    if (periodity_image.visibility == View.GONE) {
+                        presenter.getExtractsList(
+                            "transactions",
+                            extractItemKey,
+                            extractItem,
+                            this@AccountStatementActivity, progress_bar_asa
+                        )
+                    }
+                }
+            }
+        }
+
+        periodity_image.setOnClickListener {
+            extractItemKey.apply {
+                setDate(this)
+            }
+        }
+
+        periodity_input.setOnClickListener {
+            extractItemKey.apply {
+                setDate(this)
             }
         }
     }
@@ -61,11 +103,34 @@ class AccountStatementActivity : BaseActivity<AccountStatementPresenter>(),
     }
 
     override fun getExtractsList(arrayList: ArrayList<Transaction>) {
+        hideLoading(progress_bar_asa)
         val viewAdapter = AccountStatementAdapter(arrayList)
         recyclerView = findViewById<RecyclerView>(R.id.recycler_extract).apply {
             setHasFixedSize(true)
             adapter = viewAdapter
         }
+    }
+
+    private fun setDate(extractItemKey: String) {
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, mYear, monthOfYear, dayOfMonth ->
+            val date = GregorianCalendar(mYear, monthOfYear, dayOfMonth).time
+            presenter.getExtractsList(
+                "transactions",
+                extractItemKey,
+                date,
+                this@AccountStatementActivity,
+                progress_bar_asa
+            )
+
+            periodity_input.text = SimpleDateFormat("dd/MM/yyyy", Locale("pt-br")).format(date)
+        }, year, month, day)
+
+        dpd.show()
     }
 
     private fun setSpinner() {

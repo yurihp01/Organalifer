@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".feature.ui.bills.AccountStatementActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_asa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminate="true"
+        android:visibility="gone"/>
     <Spinner
         android:id="@+id/extract_type"
         android:layout_width="0dp"
@@ -24,14 +34,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/extract_type"/>
 
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/periodity_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:text="Selecione uma Data:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/extract_item"/>
+
+    <ImageView
+        android:id="@+id/periodity_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/ic_date_range_black_24dp"
+        app:layout_constraintStart_toEndOf="@id/periodity_input"
+        app:layout_constraintTop_toTopOf="@id/periodity_input" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_extract"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/extract_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/periodity_image"
         app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
 

@@ -1,5 +1,6 @@
 package com.example.organalifer.feature.ui.transaction
 
+import android.widget.ProgressBar
 import com.example.organalifer.data.base.BasePresenter
 import com.example.organalifer.data.base.BaseView
 import com.example.organalifer.data.model.Transaction
@@ -10,6 +11,6 @@ interface TransactionContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun setTransaction(transaction: Transaction)
+        fun setTransaction(transaction: Transaction, progressBar: ProgressBar)
     }
 }

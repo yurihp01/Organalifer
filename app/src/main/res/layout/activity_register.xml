@@ -7,41 +7,44 @@
     android:layout_height="match_parent"
     tools:context=".feature.ui.register.RegisterActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/account_input"
-        android:layout_width="0dp"
+    <ProgressBar
+        android:id="@+id/progress_bar_ar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/value_input" >
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/account_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:hint="Descrição da conta"
-            android:textSize="30sp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:textSize="30sp"
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/value_input"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/account_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/register_button"
-        app:layout_constraintVertical_bias="1">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/value_input"/>
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/value_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:hint="Valor da conta"
-            android:textSize="30sp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/account_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/register_button"
+            app:layout_constraintVertical_bias="1"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_button"

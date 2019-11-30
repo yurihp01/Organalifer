@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".feature.ui.transaction.TransactionActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar_as"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
     <RadioGroup
         android:id="@+id/transaction_payment_group"
         android:layout_width="0dp"
@@ -140,28 +151,25 @@
             android:textSize="30sp" />
     </RadioGroup>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/periodity_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:text="Selecione uma Data:"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transaction_repeatable_group" >
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Qual a periodicidade?"
-            android:inputType="number"
-            android:imeOptions="actionDone"
-            android:gravity="start"
-            android:textAlignment="textStart"
-            android:lines="1"
-            android:textSize="20sp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@id/transaction_repeatable_group" />
 
+    <ImageView
+        android:id="@+id/periodity_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/ic_date_range_black_24dp"
+        app:layout_constraintStart_toEndOf="@id/periodity_input"
+        app:layout_constraintTop_toTopOf="@id/periodity_input" />
 
     <Button
         android:id="@+id/transaction_button"

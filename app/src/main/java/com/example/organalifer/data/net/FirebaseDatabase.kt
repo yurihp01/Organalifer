@@ -9,6 +9,8 @@ import com.example.organalifer.feature.ui.register.RegisterContract
 import com.example.organalifer.feature.ui.transaction.TransactionContract
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.text.SimpleDateFormat
+import java.util.*
 
 object FirebaseDatabase {
     private var firestore: FirebaseFirestore? = null
@@ -69,21 +71,42 @@ object FirebaseDatabase {
         }
     }
 
-    fun getTransactionsAccordingToOrder(collection: String, order: String, view: AccountStatementContract.View) {
+    fun getTransactionsAccordingToOrder(collection: String, key: String, value: Any, view: AccountStatementContract.View) {
         val arrayList = arrayListOf<Transaction>()
         firestore?.apply {
 
-            this.collection(collection).orderBy(order, Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        arrayList.add(document.toObject(Transaction::class.java))
-                    }
-                    view.getExtractsList(arrayList)
+            when (value) {
+                is String -> {
+                    this.collection(collection).whereEqualTo(key, value)
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                arrayList.add(document.toObject(Transaction::class.java))
+                            }
+                            view.getExtractsList(arrayList)
+                        }
+                        .addOnFailureListener {
+                            view.showError(it)
+                        }
                 }
-                .addOnFailureListener {
-                    view.showError(it)
+                else -> {
+                    this.collection(collection).whereLessThanOrEqualTo(key, value)
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                val transaction = document.toObject(Transaction::class.java)
+                                val date = SimpleDateFormat("dd/MM/yyyy").format(transaction.periodicity)
+
+                                transaction.periodicity = SimpleDateFormat("dd/MM/yyyy").parse(date)
+                                arrayList.add(transaction)
+                            }
+                            view.getExtractsList(arrayList)
+                        }
+                        .addOnFailureListener {
+                            view.showError(it)
+                        }
                 }
+            }
         }
     }
 

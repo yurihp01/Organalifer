@@ -19,11 +19,11 @@ class RegisterActivity() : BaseActivity<RegisterContract.Presenter>(), RegisterC
 
         register_button.setOnClickListener {
             val account = Account(
-                description = account_input.editText!!.text.toString(),
-                balance = value_input.editText!!.text.toString()
+                description = account_input.text.toString(),
+                balance = value_input.text.toString()
             )
 
-            presenter.saveAccount(account)
+            presenter.saveAccount(account, progress_bar_ar)
         }
     }
 

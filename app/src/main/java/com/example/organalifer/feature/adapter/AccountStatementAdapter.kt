@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.organalifer.R
 import com.example.organalifer.data.model.Transaction
 import kotlinx.android.synthetic.main.fragment_card.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class AccountStatementAdapter(private val extractList: ArrayList<Transaction>) :
     RecyclerView.Adapter<AccountStatementAdapter.AccountStatementViewHolder>() {
@@ -26,7 +28,7 @@ class AccountStatementAdapter(private val extractList: ArrayList<Transaction>) :
         view.transaction_name.text = transaction.accountName
         view.transaction_category.text = transaction.category
         view.transaction_description.text = transaction.description
-        view.transaction_periodicity.text = transaction.periodicity ?: "-"
+        view.transaction_periodicity.text = SimpleDateFormat("dd/MM/yyyy").format(transaction.periodicity)
         view.transaction_value.text = """R$${transaction.value}"""
         view.transaction_type.text = transaction.type
     }

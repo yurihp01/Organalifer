@@ -22,12 +22,15 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
     private var accountsList = arrayListOf<String>()
 
     override fun setPartialBalance(balance: Double) {
+        hideLoading(progress_bar_h)
         account_value.text = "Saldo da conta $balance"
     }
 
     override fun setTotalBalance(balance: Double) {
+        hideLoading(progress_bar_h)
         accountsValue = balance
         general_account_value.text = "Saldo entre Contas: R$${accountsValue}"
+
     }
 
     override fun contentView(): Int = R.layout.activity_home
@@ -45,7 +48,7 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                presenter.getPartialBalance(p0!!.getItemAtPosition(p2).toString())
+                presenter.getPartialBalance(p0!!.getItemAtPosition(p2).toString(), progress_bar_h)
             }
 
         }
@@ -61,17 +64,17 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.getAccountSpinnerList()
+        presenter.getAccountSpinnerList(progress_bar_h)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // SALVAR AMBOS NO BANCO DE DADOS PARA ARMAZENA-LOS E ACESSA-LOS DEPOIS.
+        // não foram usados os activities results, mas fiz a chamada para mostrar que funciona!
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REGISTER_CODE -> {
-                    // activity result
+                    println("Transaction Voltou!")
                 }
                 TRANSACTION_CODE -> {
                     data?.run {
@@ -90,7 +93,7 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
                 accountsList.add(a.description)
         }
 
-        presenter.getTotalBalance()
+        presenter.getTotalBalance(progress_bar_h)
         setSpinner()
     }
 
@@ -179,7 +182,6 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
     companion object {
         const val REGISTER_CODE = 2
         const val TRANSACTION_CODE = 3
-        const val ACCOUNT_KEY = "ACCOUNT_KEY"
         const val TRANSACTION_KEY = "TRANSACTION_KEY"
     }
 }
