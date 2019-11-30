@@ -108,6 +108,7 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
             setTransactionButtonAndSpinnerEnable(isAccountListEmpty)
             setAdapter()
         } else {
+            Toast.makeText(this, "Não tem nenhuma conta cadastrada, cadastre para acessar transações e extratos!", Toast.LENGTH_LONG).show()
             setTransactionButtonAndSpinnerEnable(accountsList.isNotEmpty())
         }
     }
@@ -128,6 +129,8 @@ class HomeActivity : BaseActivity<HomePresenter>(), HomeContract.View {
     private fun setTransactionButtonAndSpinnerEnable(isEnabled: Boolean) {
         financial_transaction.isEnabled = isEnabled
         financial_transaction_image.isEnabled = isEnabled
+        account_statement.isEnabled = isEnabled
+        account_statement_image.isEnabled = isEnabled
         accounts_spinner.isEnabled = isEnabled
     }
 
